@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "320776135501",
+    "project_id": "the-fire-45c47",
+    "storage_bucket": "the-fire-45c47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320776135501:android:ecae25e0617ef0bfc60d04",
+        "android_client_info": {
+          "package_name": "com.devcatstudio.the_fire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEttPF2p_n4PKbXg3Meh0KckxoHlx478Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
