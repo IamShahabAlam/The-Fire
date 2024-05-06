@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:the_fire/routes/page_names.dart';
+import 'package:the_fire/routes/page_routes.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -18,9 +20,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Fire Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
         useMaterial3: true,
       ),
+      initialRoute: PageNames.splashScreen,
+      routes: PageRoutes.routes,
+
       // home: const Home(),
     );
   }

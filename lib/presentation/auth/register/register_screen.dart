@@ -6,6 +6,8 @@ import 'package:the_fire/app/utils/custom_widgets/gradient_button.dart';
 import 'package:the_fire/routes/page_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../app/utils/custom_functions/app_alerts.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -39,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         // If the user is successfully created, proceed to store additional information in Firestore
         if (userCredential.user != null) {
-          createSnackBar('User Registered Successfully', 1);
+          Dialogs.createSnackBar('User Registered Successfully', 1);
 
           await db.collection("users").doc(userCredential.user!.uid).set({
             "Email": emailController.text,
@@ -49,22 +51,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
           });
         } else {
           // User creation failed, handle this case
-          createSnackBar('Unable to Register User', 0);
+          Dialogs.createSnackBar('Unable to Register User', 0);
         }
 
         // Optionally, you might want to navigate the user to a different screen or perform other actions
       } on FirebaseAuthException catch (e) {
-        // Handle specific Firebase authentication errors here
+        // Handle specific Firebase authenticatzion errors here
         if (e.code == 'weak-password') {
-          createSnackBar('${e.message}', 0);
+          Dialogs.createSnackBar('${e.message}', 0);
         } else if (e.code == 'email-already-in-use') {
-          createSnackBar('An account already exists for that email.', 0);
+          Dialogs.createSnackBar('An account already exists for that email.', 0);
         } else {
-          createSnackBar('${e.message}', 0);
+          Dialogs.createSnackBar('${e.message}', 0);
         }
       } catch (e) {
         // Handle other errors that might occur
-        createSnackBar('$e', 0);
+        Dialogs.createSnackBar('$e', 0);
       }
 
       // Navigator.pus
@@ -72,23 +74,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() => isLoading = false);
     }
 
-    // createSnackBar('THE ERROR HAS FOUND!!!');
+    // Dialogs.createSnackBar('THE ERROR HAS FOUND!!!');
 
     setState(() => isLoading = false);
-  }
-
-  void createSnackBar(String message, int code) {
-    final snackBar = SnackBar(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        content: Text(message),
-        backgroundColor: code == 0
-            ? Colors.red
-            : code == 1
-                ? Colors.green
-                : Colors.grey.shade700);
-
-    // Find the Scaffold in the Widget tree and use it to show a SnackBar!
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
