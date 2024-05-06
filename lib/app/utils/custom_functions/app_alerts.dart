@@ -28,6 +28,20 @@ class Dialogs {
     );
   }
 
+  static void createSnackBar(String message, int code) {
+    final snackBar = SnackBar(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        content: Text(message),
+        backgroundColor: code == 0
+            ? Colors.red
+            : code == 1
+                ? Colors.green
+                : Colors.grey.shade700);
+
+    // Find the Scaffold in the Widget tree and use it to show a SnackBar!
+    ScaffoldMessenger.of(Get.context!).showSnackBar(snackBar);
+  }
+
 /*
 // Network Message with navigations
   static void showNetworkMessageForSplash() {
