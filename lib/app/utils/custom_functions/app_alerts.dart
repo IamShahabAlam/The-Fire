@@ -28,8 +28,10 @@ class Dialogs {
     );
   }
 
-  static void createSnackBar(String message, int code) {
+  static void createSnackBar(BuildContext context, String message, int code) {
     final snackBar = SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(6),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         content: Text(message),
         backgroundColor: code == 0
@@ -39,7 +41,7 @@ class Dialogs {
                 : Colors.grey.shade700);
 
     // Find the Scaffold in the Widget tree and use it to show a SnackBar!
-    ScaffoldMessenger.of(Get.context!).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
 /*
