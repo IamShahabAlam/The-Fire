@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:the_fire/app/config/app_size_config.dart';
+import 'package:the_fire/presentation/home/homepage/homepage_screen.dart';
 
 import '../../../app/utils/custom_functions/app_alerts.dart';
 import '../../../app/utils/custom_widgets/gradient_button.dart';
@@ -29,24 +32,27 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => isLoading = true);
     try {
       if (_formKey.currentState!.validate()) {
-        UserCredential userCredential =
-            await _auth.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
 
         if (userCredential.user != null) {
-          Dialogs.createSnackBar('User Logged In', 1);
+          Dialogs.createSnackBar(context, 'User Logged In', 1);
 
           profile = await db.collection('user').doc(userCredential.user!.uid).get();
           // profile save to Preferences ----
+          HomePage(profile: profile!.data() as Map);
           print(profile!);
         } else {
-          Dialogs.createSnackBar('User Not Found', 0);
+          Dialogs.createSnackBar(context, 'User Not Found', 0);
         }
       }
       setState(() => isLoading = false);
     } on FirebaseAuthException catch (e) {
-      Dialogs.createSnackBar(e.message!, 0);
+      Dialogs.createSnackBar(context, e.message!, 0);
     } catch (e) {
-      Dialogs.createSnackBar(e.toString(), 0);
+      Dialogs.createSnackBar(context, e.toString(), 0);
       setState(() => isLoading = false);
     }
   }
