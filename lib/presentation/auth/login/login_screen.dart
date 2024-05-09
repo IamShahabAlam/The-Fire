@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future onPressLogin() async {
     setState(() => isLoading = true);
+    // Dialogs.showProgressBar();
     try {
       if (_formKey.currentState!.validate()) {
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -40,20 +41,25 @@ class _LoginScreenState extends State<LoginScreen> {
         if (userCredential.user != null) {
           Dialogs.createSnackBar(context, 'User Logged In', 1);
 
-          profile = await db.collection('user').doc(userCredential.user!.uid).get();
+          profile = await db.collection('users').doc(userCredential.user!.uid).get(); // else use auth.currentuser.uid
+          Map<String, dynamic> profileData = profile!.data() as Map<String, dynamic>;
+          print('********** PROFILE ************');
+          print(profileData);
           // profile save to Preferences ----
-          HomePage(profile: profile!.data() as Map);
-          print(profile!);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(profile: profileData)));
         } else {
           Dialogs.createSnackBar(context, 'User Not Found', 0);
         }
       }
       setState(() => isLoading = false);
+
+      // Dialogs.hideProgressBar();
     } on FirebaseAuthException catch (e) {
       Dialogs.createSnackBar(context, e.message!, 0);
     } catch (e) {
       Dialogs.createSnackBar(context, e.toString(), 0);
       setState(() => isLoading = false);
+      // Dialogs.hideProgressBar();
     }
   }
 
